@@ -1,0 +1,1 @@
+cmd cd C:\Users\Usuário\OneDrive\Área de Trabalho\Trabalho Ricardo
