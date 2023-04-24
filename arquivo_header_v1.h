@@ -15,7 +15,7 @@ typedef struct
 
 typedef struct
 {
-    int ladoDireito,ladoEsquerdo,ladoSuperior,ladoInferior;
+    int ladoDireito,ladoEsquerdo,ladoSuperior,ladoInferior,largura,altura;
 }LadoAcrescentar;
 
 typedef struct
@@ -39,18 +39,17 @@ typedef struct
 
 }TELA;
 
-
-
-void Quadrados(  QUADRADO * ,  COORD );
-void Atualiza_Centro( TELA * );
-void AtribuirTamanhoQuadrados(QUADRADO *,int ,int );
-void Start();
-void AjustarPosicaoQuadrado(QUADRADO *);
-void ComandoDirecao(QUADRADO *, QUADRADO *, TELA *);
-void SwitchDirecao(QUADRADO *, QUADRADO* , TELA *);
 void AjustarCorQuadrado(QUADRADO *);
-void SwitchTeclas(DWORD , QUADRADO *,QUADRADO *, TELA * );
+void AjustarPosicaoQuadrado(QUADRADO *);
+void Atualiza_Centro(TELA *);
+void AtribuirTamanhoQuadrados(QUADRADO *,int ,int );
+void ComandoDirecao(QUADRADO *, QUADRADO* , TELA* );
 void EscreverTela(QUADRADO*, QUADRADO*);
+void Quadrados(QUADRADO *, COORD );
+void Start();
 void SwitchCor(COLORS , char[]);
+void SwitchDirecao(QUADRADO* , QUADRADO *, TELA *);
+void SwitchTeclas(DWORD , QUADRADO *,QUADRADO *, TELA *);
+
 
     
