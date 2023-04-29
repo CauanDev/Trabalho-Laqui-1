@@ -42,11 +42,10 @@ typedef struct
 void AjustarCorQuadrado(QUADRADO *);
 void AjustarPosicaoQuadrado(QUADRADO *);
 void Atualiza_Centro(TELA *);
-void AtribuirTamanhoQuadrados(QUADRADO *,int ,int );
-void ComandoDirecao(QUADRADO *, QUADRADO* , TELA* );
+void SorteioDirecao(QUADRADO *);
 void EscreverTela(QUADRADO*, QUADRADO*);
 void Quadrados(QUADRADO *, COORD );
-void Start();
+
 void SwitchCor(COLORS , char[]);
 void SwitchDirecao(QUADRADO* , QUADRADO *, TELA *);
 void SwitchTeclas(DWORD , QUADRADO *,QUADRADO *, TELA *);
