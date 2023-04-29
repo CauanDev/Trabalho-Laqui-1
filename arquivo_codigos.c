@@ -1,130 +1,38 @@
 #include "arquivo_header_v1.h"
-#include "console_v1.5.4.h"
-#include "conio_v3.2.4.h"
+#include "console_v1.5.4.h" /*Funções utilizadas: setTituloConsole,MaxDimensaoJanela,setDimensaoJanela*/
+#include "conio_v3.2.4.h" /* Funções utilizadas: clrscr,textbackground */
 #include "graphics_v1.1.h"
 #include <stdlib.h>
 #include <time.h>
 #include <Windows.h>
-#include <string.h>
+#include <string.h> /* Funções utilizadas: strcpy */
 
-
-
-void Start()
-{
-    TELA *tela,telaAux;
-   
-    
-   
-    /*
-    
-    === CRIAÇÕES DAS VÁRIAVEIS PRINCIPAIS QUE USAREMOS EM TODO O PROGRAMA ===
-    
-    */
-    QUADRADO *quadrado, aux1,*quadrado_asteristico,aux2;
-
-    
-    tela = &telaAux;    
-    quadrado = &aux1;
-    quadrado_asteristico = &aux2;
-    
-    setTituloConsole("Quadrado Animado");     
-    quadrado_asteristico = quadrado_asteristico;
-    tela->dimensao = MaxDimensaoJanela();         
-    setDimensaoJanela(tela->dimensao.X ,tela->dimensao.Y);   
-    quadrado->area.top = 4;    
-    quadrado->area.bottom = 36;
-    quadrado->area.right = 98;
-    quadrado->area.left = 2;
-    quadrado->cor = BLUE;
-    quadrado_asteristico->cor = WHITE;
-    quadrado->lados.ladoDireito = 0;
-    quadrado->lados.ladoEsquerdo = 0;
-    quadrado->lados.ladoInferior = 0;
-    quadrado->lados.ladoSuperior = 0;
- 
-    
-
-
-
-    
-    AtribuirTamanhoQuadrados(quadrado,38,102);
-    Quadrados(quadrado,tela->dimensao); 
-   
-    tela->dimensao = tamanhoJanelaConsole();  
-    _setcursortype(_NOCURSOR);     
-    
-   
-    quadrado_asteristico->posX_Atual = tela->dimensao.X/3 - 3;
-    quadrado_asteristico->posY_Atual = tela->dimensao.Y/2 - 3;
-    quadrado_asteristico->VELOCIDADE = 1000;
-    ComandoDirecao(quadrado_asteristico,quadrado,tela);    
-    
-    
-}
-
+/*
+    Essa função irá alterar a cor do quadrado, como parametro ela recebe uma estrutura ponteiro do tipo QUADRADO. Ela irá sortear um número aleatorio de 0 até 14, 
+    iremos então icrementar mais um ao resultado final, para que ele o resultado fique entre 1 até 15,o resultado será armazenado na variavel COR do tipo COLORS da estrutura QUADRADO.
+    Todo o código de cor aleatorio será feito de um DO WHILE, para que tenha a certeza de que nenhum quadrado irá receber a cor PRETO, para que o quadrado não suma no console.
+*/
 void AjustarCorQuadrado(QUADRADO *quadrado)
 {
-    srand(time(NULL));;    
+    srand(time(NULL)); 
+    do
+    {
     quadrado->cor = rand() % 14;
     quadrado->cor++;
-    switch (quadrado->cor) 
-    { 
-    case BLACK:        
-        quadrado->cor = quadrado->cor;
-        break;
-    case BLUE:
-        quadrado->cor = BLUE;
-        break;
-    case GREEN:
-        quadrado->cor = GREEN;      
-        break;
-    case CYAN:
-        quadrado->cor = CYAN;    
-        break;
-    case RED:
-        quadrado->cor = RED;        
-        break;
-    case MAGENTA:
-        quadrado->cor = MAGENTA;
-        break;
-    case BROWN:
-        quadrado->cor = BROWN;
-        break;
-    case LIGHTGRAY:
-        quadrado->cor = LIGHTGRAY;
-        break;
-    case DARKGRAY:
-        quadrado->cor = DARKGRAY;
-        break;
-    case LIGHTBLUE:
-        quadrado->cor = LIGHTBLUE;
-        break;
-    case LIGHTGREEN:
-        quadrado->cor = LIGHTGREEN;
-        break;
-    case LIGHTCYAN:
-        quadrado->cor = LIGHTCYAN;
-        break;
-    case LIGHTRED:
-        quadrado->cor = LIGHTRED;
-        break;
-    case LIGHTMAGENTA:
-        quadrado->cor = LIGHTMAGENTA;
-        break;
-    case YELLOW:
-        quadrado->cor = YELLOW;
-        break;
-    case WHITE:
-        quadrado->cor = WHITE;
-        break;
-    }
-
-    
-
+    }while(quadrado->cor==BLACK);     
 }
 
 
+/*
+    Nessa função iremos passar como parametro uma estrutura ponteiro do tipo QUADRADO, iremos criar as variaveis X e Y tipo inteiro. Aonde iremos amarzenar no X 
+    a posição Horizontal do Quadrado, no Y a posição Vertical do Quadrado. após isso iremos limpar a tela e depois iremos imprimir o quadrado asteristico.
+    Iremos primeiro posicionar o cursor dois pontos a menos na vertical de onde o quadrado se encontra e na posição horizontal X sem modificação, e iremos imprimir a primeira linha
+    em seguida iremos posicionar o cursor na posição horizontal X sem alteração e na posição Y menos um e imprimir a segunda linha do quadrado, após isso iremos imprimir a ultima linha
+    aonde iremos posicionar o cursos na posição horizontal X sem alteração e na posição Y sem alteração também, e em seguida iremos imprimir a ultima linha, e iremos fazer o programa "dormir",
+    passando como parametro para a função SLEEP a velocidade do quadrado recebido como parametro. 
 
+    Com essa função iremos criar o quadrado e arrumar a sua posição, e com o sleep no final, iremos conseguir controlar a velocidade que o quadrado irá ser gerado no proximo 
+*/
 void AjustarPosicaoQuadrado(QUADRADO *quadrado)
 {
     int x,y;
@@ -133,34 +41,25 @@ void AjustarPosicaoQuadrado(QUADRADO *quadrado)
     y = quadrado->posY_Atual;
     
     clrscr();
-    gotoxy((x ),(y-2));    
+    gotoxy((x),(y-2));    
     printf("***");                                  
-    gotoxy((x ),(y-1));    
+    gotoxy((x),(y-1));    
     printf("***");  ;                                             
-    gotoxy((x ),(y));    
+    gotoxy((x),(y));    
     printf("***");
-   
-    Sleep(quadrado->VELOCIDADE);
-}
-
-
-
-
-void AtribuirTamanhoQuadrados(QUADRADO *quadrado,int altura1,int largura1)
-{
-    quadrado->altura = altura1;
-    quadrado->largura = largura1;    
-    quadrado->lados.altura = altura1;
-    quadrado->lados.largura = largura1;
-}
-
-
-void ComandoDirecao(QUADRADO *quadrado_asteristico,QUADRADO *quadrado_principal,TELA *tela)
-{
-    int i=0,j=0;
+   /* Sleep(quadrado->VELOCIDADE);*/
     
-    i = j;
-    j = i;
+}
+
+
+
+/*
+    Iremos receber 1 estruturas ponteiro QUADRADO.
+    Nessa função iremos utilizar um número aleatorio para definir a direção do quadrado. Iremos usar o rand para retornar um numero de 0 até 3 e usaremos um icremento 
+    para que retorne de 1 até 4, depois disso iremos armazenar a direção na variavel direcao da estrutura QUADRADO e chamamos a função principal do código todo.
+*/
+void SorteioDirecao(QUADRADO *quadrado_asteristico)
+{
     /* semente para a função rand() */
     srand(time(NULL));
 
@@ -170,19 +69,34 @@ void ComandoDirecao(QUADRADO *quadrado_asteristico,QUADRADO *quadrado_principal,
     /* adicionar 1 ao número para obter um número aleatório entre 1 e 4*/
     quadrado_asteristico->direcao++;
     
-    SwitchDirecao(quadrado_asteristico,quadrado_principal,tela);
+    
     
 
 }
 
-
+/*
+    Nessa função iremos imprimir um menu que irá mostrar a cor dos dois quadrados e a direção do quadrado asteristico e a sua velocidade;
+*/
 
 void EscreverTela(QUADRADO *quadradro_asteristico, QUADRADO *quadradro_principal)
 {    
+/*
+    Definimos 3 string, sendo elas usadas para guardar a direção, e as cores dos quadrados;
+*/
     char direcao[10],corQuadradoPrincipal[20],corQuadradoAsteristico[20]; 
    
+/*
+    Código para fazer o programa ser executado em 1 milisegundo, começando desse ponto até o ponto  timeEndPeriod( 1 )
+*/
     timeBeginPeriod( 1 );   
     
+/*
+    Nesse switch iremos ver os casos em que a direção está, sendo o caso 1 para baixo, o caso 2 para cima, caso 3 para direita e caso 4 para esquerda:
+    se for o caso 1, passaremos para a string direcao a palavra INFERIOR
+    se for o caso 2, passaremos para a string direcao a palavra SUPERIOR
+    se for o caso 3, passaremos para a string direcao a palavra DIREITA
+    se for o caso 4, passaremos para a string direcao a palavra ESQUERDA    
+*/    
     switch(quadradro_asteristico->direcao)
     {
         case 1:
@@ -198,46 +112,61 @@ void EscreverTela(QUADRADO *quadradro_asteristico, QUADRADO *quadradro_principal
         strcpy(direcao,"Esquerda");
         break;
     }
+
+/*
+    Chamaremos duas vezes a função SWITCHCOR, para que seja alocado nas strings a cor dos quadrados em portugues a cor que está alocado nas estrtuturas
+*/
     SwitchCor(quadradro_asteristico->cor,corQuadradoAsteristico);
     SwitchCor(quadradro_principal->cor,corQuadradoPrincipal);  
      
+/*
+    Iremos colocar o cursor no ponto inferior esquerdo do quadrado principal e trocaremos a cor do texto para BRANCO
+*/
     gotoxy(1,quadradro_principal->area.bottom);
+    textcolor(WHITE);
+/*
+    Será utilizado o \n no começo para que seja quebrado a area e que seja impresso todas as informações desejadas na borda do console original.
+    Em seguida alteramos a cor do textColor para a cor original do quadrado asteristico, para que a cor do quadradoAsteristico seja alterado também.
     
-    printf("\nVELOCIDADE: %d Milisegundos\nDirecao:%s ",quadradro_asteristico->VELOCIDADE,direcao);        
-    printf("\nCor Quadrado Principal: %s\nCor Quadrado Asteristico: %s\n",corQuadradoPrincipal,corQuadradoAsteristico);
-    clrscr();
-   
-   
-
-  
-    
-    
+*/
+    printf("\nVELOCIDADE: %d Milisegundos\nDirecao:%s\nCor Quadrado Principal: %s\nCor Quadrado Asteristico: %s\n",quadradro_asteristico->VELOCIDADE,direcao,corQuadradoPrincipal,corQuadradoAsteristico);           clrscr();
+    textcolor(quadradro_asteristico->cor);
     timeEndPeriod( 1 );
 }
 
+/*
+    Essa função será utilizada para imprimir o quadrado prinicpal, a area aonde o quadrado asteristico irá andar.
+    Recebemos como parametro a estrutura ponteiro QAUDRADO e a estrutura TELA
+*/
 void Quadrados(QUADRADO *quadrado,COORD tela)
 {
-
-
-   
+/*
+    Criamos 4 variaveis do tipo inteiro, que irá armazenar os valores para criarmos a janela, sendo as duas variaveis que começam com janelaA para a janela maior e as
+    que começam com janelaB para a tela que irá ficar dentro da janela maior.
+*/   
     int janelaA_x;
     int janelaA_y;
     int janelaB_x;
     int janelaB_y;
 
    
-
+/*
+    Será feito o calculo para definirmos o valor de cada variavel, tela.X/2 e tela.Y/2 representa o ponto do meio da tela. 
+    Em seguido iremos apagar toda a tela, pois, essa mesma função será usada para recriamos novamente o quadrado, para isso temos que apagar toda a tela.
+    Após isso iremos definir a cor dessa janela, iremos utilizar como parametro a cor definida da estrutura quadrada, usando a variavel COR
+*/
     janelaA_x = (tela.X/2) - (quadrado->largura / 2);
     janelaA_y = (tela.Y/2) - (quadrado->altura / 2);               
     janelaB_x = ((tela.X/2) - (quadrado->largura / 2)) ;
     janelaB_y = ( (tela.Y/2) - (quadrado->altura / 2)) ;
    
-    system("cls");
-    clrscr();
-    
+    system("cls"); 
     textbackground(quadrado->cor);
    
-    /* ESSE SERÁ O QUADRADO GRANDE*/
+    
+/*
+    Depois de definido todas as variaveis utilizadas e ter sido setada a cor da janela, iremos imprimir ela.
+*/
     window(
     janelaA_x - quadrado->lados.ladoEsquerdo,
     janelaA_y + quadrado->lados.ladoSuperior,
@@ -259,11 +188,9 @@ void Quadrados(QUADRADO *quadrado,COORD tela)
       
 }
 
-
-
-
-
-
+/*
+    Nessa função iremos receber uma variavel
+*/
 void SwitchCor(COLORS cor, char string[])
 {
     switch (cor)
@@ -326,7 +253,7 @@ void SwitchDirecao(QUADRADO *quadrado_asteristico, QUADRADO *quadrado_principal,
 {   
     
     EVENTO evento;
-    
+    int i=0;
     timeBeginPeriod( 1 );
     switch(quadrado_asteristico->direcao)
     {
@@ -335,9 +262,11 @@ void SwitchDirecao(QUADRADO *quadrado_asteristico, QUADRADO *quadrado_principal,
             
             EscreverTela(quadrado_asteristico,quadrado_principal);
             do
-            {            
-                if( hit(KEYBOARD_HIT) )
+            {   
+                for(i=0;i<10000;i++)
                 {
+                    if( hit(KEYBOARD_HIT) )
+                    {
                     evento = Evento();
                     if(evento.teclado.status_tecla == LIBERADA)
                     {       
@@ -346,14 +275,21 @@ void SwitchDirecao(QUADRADO *quadrado_asteristico, QUADRADO *quadrado_principal,
                         SwitchDirecao(quadrado_asteristico,quadrado_principal,tela); 
                           
                     }
-                }           
-               else
-               {
-                    
+                    }           
+                    else
+                    {
+                    if(i==1000)
+                    {
                     AjustarPosicaoQuadrado(quadrado_asteristico);
-                    quadrado_asteristico->posY_Atual+=1;
+                    quadrado_asteristico->posY_Atual+=1;   
+                    printf("1s");
+                    }
+
+
                     
-               }
+                    }
+                }          
+                
                        
             }
             while(quadrado_asteristico->posY_Atual <= quadrado_principal->area.bottom);            
@@ -663,6 +599,8 @@ void SwitchTeclas(DWORD tecla, QUADRADO *quadrado_asteristico,QUADRADO *quadrado
         break;
 
         case ESC:
+            _setcursortype(_NORMALCURSOR);  
+            textcolor(WHITE);
             exit(0);
         break;
 
